@@ -32,7 +32,12 @@ class ControlHandler(tornado.web.RequestHandler):
         args = urlparse.parse_qs(query)
         try:
             mocp_action = args.get("mocp_action")[0]
-            shell_action = mocp_actions[mocp_action]
+            shell_action = ""
+            if mocp_action == "volume_set":
+                value = args.get("value")[0]
+                shell_action = "mocp -v " + value
+            else:
+                shell_action = mocp_actions[mocp_action]
             if os.system(shell_action):
                 raise Exception
             resp = "success"

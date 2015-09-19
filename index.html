@@ -30,6 +30,22 @@
             button_click_set("bpause",   "pause");
             button_click_set("bvolup",   "volup");
             button_click_set("bvoldown", "voldown");
+            $("#rvolume").change(function(){
+                $("#status_div").html("requesting...");
+                $.ajax({
+                    url: script_addr,
+                    type: "GET",
+                    data: { "mocp_action" : "volume_set",
+                        value : $("#rvolume").val()
+                    },
+                    success: function(res) {
+                        $("#status_div").html(res);
+                    },
+                    error: function(res) {
+                        $("#status_div").html("request error");
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -41,6 +57,7 @@
     <p><button id="bpause"  >Pause!</button></p>
     <p><button id="bvolup"  >Volume Up</button></p>
     <p><button id="bvoldown">Volume Down</button></p>
+    <p>Volume: <input type="range" id="rvolume" min="0" max="100" step="1" /></p>
     <div id="status_div"></div>
 </body>
 </html>
