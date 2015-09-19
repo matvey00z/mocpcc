@@ -22,6 +22,11 @@ def usage(cmd):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
+        self.render("index.html")
+
+
+class ControlHandler(tornado.web.RequestHandler):
+    def get(self):
         action = ""
         args = urlparse.parse_qs(self.request.uri)
         try:
@@ -35,7 +40,6 @@ class MainHandler(tornado.web.RequestHandler):
             print(args, 'faliure')
         self.write(action)
 
-
 if __name__ == "__main__":
     try:
         script, serve_address, port = argv
@@ -43,8 +47,11 @@ if __name__ == "__main__":
     except:
         usage(argv[0])
 
+    cwd = os.getcwd()
     application = tornado.web.Application([
             (r"/", MainHandler),
+            (r"/control", ControlHandler),
+            (r"/(.*\.js)", tornado.web.StaticFileHandler,{"path": cwd }),
     ])
     application.listen(port, address=serve_address)
     tornado.ioloop.IOLoop.current().start()
