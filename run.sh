@@ -5,4 +5,4 @@ IP_PORT_FACE="8888"
 IP_PORT_MSERV="8889"
 
 python -m http.server -b ${IP_ADDRESS} ${IP_PORT_FACE} &
-./mserv.py
+./mserv.py ${IP_ADDRESS} ${IP_PORT_MSERV}

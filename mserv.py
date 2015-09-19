@@ -4,6 +4,7 @@ import tornado.ioloop
 import tornado.web
 import urllib.parse as urlparse
 import os
+from sys import argv, exit
 
 mocp_actions = {
     "next"    : "mocp -f",
@@ -14,6 +15,10 @@ mocp_actions = {
     "volup"   : "mocp -v +5",
     "voldown" : "mocp -v -5",
 }
+
+def usage(cmd):
+    print("Usage: %s <address> <port>" % cmd)
+    exit(1)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -32,8 +37,14 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 if __name__ == "__main__":
+    try:
+        script, serve_address, port = argv
+        port = int(port)
+    except:
+        usage(argv[0])
+
     application = tornado.web.Application([
             (r"/", MainHandler),
     ])
-    application.listen(8889, address="192.168.0.75")
+    application.listen(port, address=serve_address)
     tornado.ioloop.IOLoop.current().start()
