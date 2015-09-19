@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>MOCPCC</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+        var script_addr = "http://192.168.0.75:8889";
+        var button_click_set = function(button_id, action) {
+            $($("#" + button_id)).click(function(){
+                $("#status_div").html("requesting...");
+                $.ajax({
+                    url: script_addr,
+                    type: "GET",
+                    dataType: "jsonp",
+                    data: {"mocp_action" : action}
+                });
+            });
+        };
+        $(document).ready(function() {
+            button_click_set("bnext",    "next");
+            button_click_set("bprev",    "prev");
+            button_click_set("btoggle",  "toggle");
+            button_click_set("bplay",    "play");
+            button_click_set("bpause",   "pause");
+            button_click_set("bvolup",   "volup");
+            button_click_set("bvoldown", "voldown");
+        });
+    </script>
+</head>
+<body>
+    <p><button id="bnext"   >Next</button></p>
+    <p><button id="bprev"   >Previous</button></p>
+    <p><button id="btoggle" >Play/Pause</button></p>
+    <p><button id="bplay"   >Play!</button></p>
+    <p><button id="bpause"  >Pause!</button></p>
+    <p><button id="bvolup"  >Volume Up</button></p>
+    <p><button id="bvoldown">Volume Down</button></p>
+    <div id="status_div"></div>
+</body>
+</html>
+
