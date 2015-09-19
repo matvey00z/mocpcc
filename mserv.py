@@ -27,18 +27,18 @@ class MainHandler(tornado.web.RequestHandler):
 
 class ControlHandler(tornado.web.RequestHandler):
     def get(self):
-        action = ""
-        args = urlparse.parse_qs(self.request.uri)
+        resp = "failure"
+        query = urlparse.urlparse(self.request.uri).query
+        args = urlparse.parse_qs(query)
         try:
             mocp_action = args.get("mocp_action")[0]
             shell_action = mocp_actions[mocp_action]
             if os.system(shell_action):
                 raise Exception
-            action = "$('#status_div').html('success')"
+            resp = "success"
         except:
-            action = "$('#status_div').html('failure')"
             print(args, 'faliure')
-        self.write(action)
+        self.write(resp)
 
 if __name__ == "__main__":
     try:

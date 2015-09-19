@@ -12,8 +12,13 @@
                 $.ajax({
                     url: script_addr,
                     type: "GET",
-                    dataType: "jsonp",
-                    data: {"mocp_action" : action}
+                    data: {"mocp_action" : action},
+                    success: function(res) {
+                        $("#status_div").html(res);
+                    },
+                    error: function(res) {
+                        $("#status_div").html("request error");
+                    }
                 });
             });
         };
