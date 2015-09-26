@@ -14,6 +14,7 @@ mocp_actions = {
     "pause"   : "mocp -P",
     "volup"   : "mocp -v +5",
     "voldown" : "mocp -v -5",
+    "remove" : "./remove.sh"
 }
 
 def usage(cmd):
